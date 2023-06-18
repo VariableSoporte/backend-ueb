@@ -17,6 +17,8 @@ class Student(Base):
     course_id = Column(Integer, ForeignKey('courses.id'))
     course = relationship('Course', back_populates='students')
 
+    candidate = relationship('Candidate', uselist=False, back_populates='student')
+
 class Course(Base):
     __tablename__ = 'courses'
 
@@ -25,6 +27,50 @@ class Course(Base):
     parallel = Column(String(2))
 
     students = relationship('Student', back_populates='course')
+
+class Dignity(Base):
+
+    __tablename__ = 'dignities'
+    id = Column(Integer, primary_key=True, index=True, autoincrement=True)
+    dignity = Column(String(50), unique=True, index=True)
+
+    candidate = relationship('Candidate', back_populates='dignity')
+
+class Candidate(Base):
+
+    __tablename__ = 'candidates'
+    id = Column(Integer, primary_key=True, index=True, autoincrement=True)
+    photo = Column(String(50))
+
+    student_id = Column(Integer, ForeignKey('students.id'))
+    student = relationship('Student', back_populates='candidate')
+
+    dignity_id = Column(Integer, ForeignKey('dignities.id'))
+    dignity = relationship('Dignity', back_populates='candidate')
+
+    list_id = Column(Integer, ForeignKey('lists.id'))
+    list = relationship('List', back_populates='candidate')
+
+class List(Base):
+    
+        __tablename__ = 'lists'
+    
+        id = Column(Integer, primary_key=True, index=True, autoincrement=True)
+        name = Column(String(50))
+        logo = Column(String(50))
+
+        candidate = relationship('Candidate', back_populates='list')
+        votes = relationship('Votes', back_populates='list')
+
+class Votes(Base):
+
+    __tablename__ = 'votes'
+
+    id = Column(Integer, primary_key=True, index=True, autoincrement=True)
+    votes = Column(Integer, default=0)
+
+    list_id = Column(Integer, ForeignKey('lists.id'))
+    list = relationship('List', back_populates='votes')
 
 
 
