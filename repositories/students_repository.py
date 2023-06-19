@@ -16,7 +16,21 @@ def create_student(db: Session, student: StudentCreate):
     db.refresh(db_student)
     return db_student
 
+
 def update_student_can_vote(db: Session, student_id: int, can_vote: bool):
-    db.query(models.Student).filter(models.Student.id == student_id).update({"can_vote": can_vote})
+    db.query(models.Student).filter(models.Student.id ==
+                                    student_id).update({"can_vote": can_vote})
     db.commit()
     return db.query(models.Student).filter(models.Student.id == student_id).first()
+
+
+def get_student_by_identification_card(db: Session, identification_card: str):
+    return db.query(models.Student).filter(models.Student.identification_card == identification_card).first()
+
+
+def get_voters(db: Session):
+    return db.query(models.Student).filter(models.Student.can_vote == False).count()
+
+
+def get_pending_voters(db: Session):
+    return db.query(models.Student).filter(models.Student.can_vote == True).count()

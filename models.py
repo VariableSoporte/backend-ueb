@@ -70,17 +70,22 @@ class List(Base):
     name = Column(String(50))
     logo = Column(String(200))
     documentation = Column(String(200), default='')
-
-    candidates = relationship('Candidate', back_populates='list')
-    votes = relationship('Votes', back_populates='list')
-
-
-class Votes(Base):
-
-    __tablename__ = 'votes'
-
-    id = Column(Integer, primary_key=True, index=True, autoincrement=True)
     votes = Column(Integer, default=0)
 
-    list_id = Column(Integer, ForeignKey('lists.id'))
-    list = relationship('List', back_populates='votes')
+    candidates = relationship('Candidate', back_populates='list')
+
+
+class VotesNull(Base):
+
+    __tablename__ = 'votes_null'
+
+    blank_votes = Column(Integer, default=0)
+    null_votes = Column(Integer, default=0)
+
+class User(Base):
+
+    __tablename__ = 'users'
+
+    id = Column(Integer, primary_key=True, index=True, autoincrement=True)
+    username = Column(String(50), unique=True, index=True)
+    password = Column(String(200))

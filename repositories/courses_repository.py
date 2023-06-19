@@ -33,3 +33,11 @@ def add_students(db: Session, course_id: int):
     df.to_sql('students', con=engine, if_exists='append', index=False)
     db.commit()
     return {True}
+
+def get_students_by_course(db: Session, course_id: int):
+    return db.query(models.Student).filter(models.Student.course_id == course_id).all()
+
+def delete_students_by_course(db: Session, course_id: int):
+    db.query(models.Student).filter(models.Student.course_id == course_id).delete()
+    db.commit()
+    return {True}

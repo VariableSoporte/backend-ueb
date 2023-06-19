@@ -11,6 +11,7 @@ class ListCreate(ListBase):
 class List(ListBase):
     id: int
     documentation: str
+    votes: int
     candidates: list[Candidate] = []
 
     class Config:

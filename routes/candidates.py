@@ -18,19 +18,19 @@ def get_db():
         db.close()
 
 
-@candidate_router.get("/", response_model=list[candidate_schema.Candidate])
-def read_candidates(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
-    candidates = crud.get_candidates(db, skip=skip, limit=limit)
-    return candidates
+# @candidate_router.get("/", response_model=list[candidate_schema.Candidate])
+# def read_candidates(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+#     candidates = crud.get_candidates(db, skip=skip, limit=limit)
+#     return candidates
 
 
 @candidate_router.post("/", response_model=candidate_schema.Candidate)
-async def create_candidate(candidate: candidate_schema.CandidateCreate, db: Session = Depends(get_db)):
+async def add_candidate(candidate: candidate_schema.CandidateCreate, db: Session = Depends(get_db)):
     db_candidate = crud.create_candidate(db=db, candidate=candidate)
     return db_candidate
 
 
-@candidate_router.post("/image/{candidate_id}")
+@candidate_router.post("/photo/{candidate_id}")
 def upload_photo(file: UploadFile = File(...), candidate_id: int = 0, db: Session = Depends(get_db)):
     # Directorio de imágenes
     image_directory = "images/candidates"
@@ -66,7 +66,7 @@ async def get_image(candidate_id: str, db: Session = Depends(get_db)):
     else:
         return file_path
     
-@candidate_router.get("/list/{list_id}", response_model=list[candidate_schema.Candidate])
-def read_candidates_by_list(list_id: int, db: Session = Depends(get_db)):
-    candidates = crud.get_candidates_by_list(db, list_id=list_id)
-    return candidates
+# @candidate_router.get("/list/{list_id}", response_model=list[candidate_schema.Candidate])
+# def read_candidates_by_list(list_id: int, db: Session = Depends(get_db)):
+#     candidates = crud.get_candidates_by_list(db, list_id=list_id)
+#     return candidates
