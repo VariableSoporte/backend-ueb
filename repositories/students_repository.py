@@ -16,7 +16,4 @@ def create_student(db: Session, student: StudentCreate):
     db.refresh(db_student)
     return db_student
 
-def add_test_students(db: Session):
-    pd.read_excel('data/fake_data.xlsx').to_sql('students', con=engine, if_exists='append', index=False)
-    db.commit()
-    return {"message": "Test students added"}
+

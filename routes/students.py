@@ -25,8 +25,3 @@ def read_students(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)
 def create_student(student: student_schema.StudentCreate, db: Session = Depends(get_db)):
     db_student = crud.create_student(db=db, student=student)
     return db_student
-
-@student_router.post("/addTestStudents")
-def add_test_students(db: Session = Depends(get_db)):
-    crud.add_test_students(db=db)
-    return {"message": "Test students added"}

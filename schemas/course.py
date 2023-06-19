@@ -14,6 +14,7 @@ class CourseCreate(CourseBase):
 class Course(CourseBase):
     id: int
     students: list[Student] = []
+    data_file: str
 
     class Config:
         orm_mode = True
