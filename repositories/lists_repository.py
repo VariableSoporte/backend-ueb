@@ -12,3 +12,11 @@ def create_list(db: Session, list: ListCreate):
     db.commit()
     db.refresh(db_list)
     return db_list
+
+def update_list(db: Session, list_id: int, file: str):
+    db.query(models.List).filter(models.List.id == list_id).update({"photo": file})
+    db.commit()
+    return db.query(models.List).filter(models.List.id == list_id).first()
+
+def get_list(db: Session, list_id: int):
+    return db.query(models.List).filter(models.List.id == list_id).first()

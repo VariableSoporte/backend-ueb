@@ -1,5 +1,4 @@
 from pydantic import BaseModel
-from .candidate import Candidate
 
 class ListBase(BaseModel):
     name: str
@@ -10,7 +9,7 @@ class ListCreate(ListBase):
 
 class List(ListBase):
     id: int
-    candidates: list[Candidate] = []
+    # candidates: list[Candidate] = []
 
     class Config:
         orm_mode = True
