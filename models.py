@@ -30,6 +30,7 @@ class Course(Base):
     id = Column(Integer, primary_key=True, index=True, autoincrement=True)
     level = Column(String(50))
     parallel = Column(String(2))
+    data_file = Column(String(200), default='')
 
     students = relationship('Student', back_populates='course')
 
@@ -58,7 +59,7 @@ class Candidate(Base):
     dignity = relationship('Dignity', back_populates='candidate')
 
     list_id = Column(Integer, ForeignKey('lists.id'))
-    list = relationship('List', back_populates='candidate')
+    list = relationship('List', back_populates='candidates')
 
 
 class List(Base):
@@ -68,8 +69,9 @@ class List(Base):
     id = Column(Integer, primary_key=True, index=True, autoincrement=True)
     name = Column(String(50))
     logo = Column(String(200))
+    documentation = Column(String(200), default='')
 
-    candidate = relationship('Candidate', back_populates='list')
+    candidates = relationship('Candidate', back_populates='list')
     votes = relationship('Votes', back_populates='list')
 
 

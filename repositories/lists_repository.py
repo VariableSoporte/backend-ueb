@@ -14,7 +14,7 @@ def create_list(db: Session, list: ListCreate):
     return db_list
 
 def update_list(db: Session, list_id: int, file: str):
-    db.query(models.List).filter(models.List.id == list_id).update({"photo": file})
+    db.query(models.List).filter(models.List.id == list_id).update({"logo": file})
     db.commit()
     return db.query(models.List).filter(models.List.id == list_id).first()
 

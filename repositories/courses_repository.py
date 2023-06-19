@@ -13,3 +13,10 @@ def create_course(db: Session, course: CourseCreate):
     db.commit()
     db.refresh(db_course)
     return db_course
+
+def update_course_data_file(db: Session, course_id: int, data_file: str):
+    db_course = db.query(models.Course).filter(models.Course.id == course_id).first()
+    db_course.data_file = data_file
+    db.commit()
+    db.refresh(db_course)
+    return db_course

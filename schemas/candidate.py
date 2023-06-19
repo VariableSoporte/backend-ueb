@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 from .student import Student
 from .dignity import Dignity
-from .list import List
+# from .list import List
 
 
 class CandidateBase(BaseModel):
@@ -19,7 +19,7 @@ class CandidateCreate(CandidateBase):
 class Candidate(CandidateBase):
     student: Student
     dignity: Dignity
-    list: List
+    # list: List
 
     class Config:
         orm_mode = True
