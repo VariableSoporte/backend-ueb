@@ -26,6 +26,10 @@ def update_course_data_file(db: Session, course_id: int, file: str):
 
 def add_students(db: Session, course_id: int):
     db_course = get_course(db, course_id)
-    pd.read_excel(f'data/courses/{db_course.data_file}').to_sql('students', con=engine, if_exists='append', index=False)
+    df = pd.read_excel(f'data/courses/{db_course.data_file}', dtype={'identification_card': str})
+    df = df.assign(course_id = course_id)
+    df = df.assign(can_vote = True)
+    print(df.dtypes)
+    df.to_sql('students', con=engine, if_exists='append', index=False)
     db.commit()
-    return {"message": "Test students added"}
+    return {True}

@@ -15,5 +15,3 @@ def create_student(db: Session, student: StudentCreate):
     db.commit()
     db.refresh(db_student)
     return db_student
-
-
