@@ -23,6 +23,14 @@ class Student(Base):
                              back_populates='student')
 
 
+class VotesNull(Base):
+
+    __tablename__ = 'votes_null'
+
+    id = Column(Integer, primary_key=True, index=True, autoincrement=True)
+    blank_votes = Column(Integer, default=0)
+    null_votes = Column(Integer, default=0)
+
 class Course(Base):
 
     __tablename__ = 'courses'
@@ -75,14 +83,6 @@ class List(Base):
     candidates = relationship('Candidate', back_populates='list')
 
 
-class VotesNull(Base):
-
-    __tablename__ = 'votes_null'
-
-    id = Column(Integer, primary_key=True, index=True, autoincrement=True)
-    blank_votes = Column(Integer, default=0)
-    null_votes = Column(Integer, default=0)
-
 class User(Base):
 
     __tablename__ = 'users'
@@ -90,3 +90,4 @@ class User(Base):
     id = Column(Integer, primary_key=True, index=True, autoincrement=True)
     username = Column(String(50), unique=True, index=True)
     password = Column(String(200))
+
