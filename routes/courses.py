@@ -18,7 +18,7 @@ def get_db():
         db.close()
 
 
-@course_router.get('/', response_model=list[course_schema.CourseBase])
+@course_router.get('/', response_model=list[course_schema.CourseList])
 def get_courses(db: Session = Depends(get_db)):
     return crud.get_courses(db)
 
@@ -28,7 +28,7 @@ def get_students_by_course(course_id: int, db: Session = Depends(get_db)):
     return crud.get_course(db, course_id)
 
 
-@course_router.post('/', response_model=course_schema.CourseBase)
+@course_router.post('/', response_model=course_schema.CourseList)
 def create_course(course: course_schema.CourseCreate, db: Session = Depends(get_db)):
     return crud.create_course(db, course)
 

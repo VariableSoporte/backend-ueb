@@ -172,11 +172,11 @@ async def get_template(db: Session = Depends(get_db)):
         return file_path
 
 
-@list_router.get("/students_file/{list_id}")
-async def get_students_file(list_id: str, db: Session = Depends(get_db)):
+@list_router.get("/students_file/{course_id}")
+async def get_students_file(course_id: int, db: Session = Depends(get_db)):
     # Directorio de imágenes"
     # Obtener la ruta de la imagen desde la bd
-    db_list = crud.get_list(db=db, candidate_id=list_id)
+    db_list = crud.get_list(db=db, candidate_id=course_id)
     image_directory = db_list.data_file
     # Ruta completa de la imagen
     file_path = os.path.join(image_directory)

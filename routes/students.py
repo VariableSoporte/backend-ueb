@@ -32,6 +32,14 @@ def read_voters(db: Session = Depends(get_db)):
     return voters
 
 
+# @student_router.get("/voters")
+# def read_voters(db: Session = Depends(get_db)):
+#     return True
+
+@student_router.get("/voters")
+def test():
+    return True
+
 @student_router.get("/pending-voters")
 def read_pending_voters(db: Session = Depends(get_db)):
     pending_voters = crud.get_pending_voters(db)
