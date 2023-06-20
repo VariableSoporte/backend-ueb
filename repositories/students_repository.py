@@ -8,6 +8,9 @@ from database import engine
 def get_students(db: Session, skip: int = 1, limit: int = 100):
     return db.query(models.Student).all()
 
+def get_student(db: Session, student_id: int):
+    return db.query(models.Student).filter(models.Student.id == student_id).first()
+
 
 def create_student(db: Session, student: StudentCreate):
     db_student = models.Student(**student.dict())
@@ -33,4 +36,9 @@ def get_voters(db: Session):
 
 
 def get_pending_voters(db: Session):
-    return db.query(models.Student).filter(models.Student.can_vote == True).count()
+    pending_voters = db.query(models.Student).filter(models.Student.can_vote == True).count()
+    print(pending_voters)
+    return pending_voters
+
+def get_students_by_course(db: Session, course_id: int):
+    return db.query(models.Student).filter(models.Student.course_id == course_id).all()

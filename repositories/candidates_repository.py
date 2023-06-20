@@ -5,7 +5,6 @@ import models
 
 
 def get_candidates(db: Session, skip: int = 1, limit: int = 100):
-    # Para que se muestren solo los presidentes se debe usar un where
     return db.query(models.Candidate).where(models.Candidate.dignity_id == 1).all()
 
 def get_candidates_by_list(db: Session, list_id: int):

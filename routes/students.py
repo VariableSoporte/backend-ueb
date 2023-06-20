@@ -9,6 +9,7 @@ from sqlalchemy.orm import Session
 
 student_router = APIRouter()
 
+
 def get_db():
     db = SessionLocal()
     try:
@@ -16,22 +17,23 @@ def get_db():
     finally:
         db.close()
 
-# @student_router.get("/", response_model=list[student_schema.Student])
-# def read_students(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
-#     students = crud.get_students(db, skip=skip, limit=limit)
-#     return students
 
-# @student_router.post("/", response_model=student_schema.Student)
-# def create_student(student: student_schema.StudentCreate, db: Session = Depends(get_db)):
-#     db_student = crud.create_student(db=db, student=student)
-#     return db_student
-
-@student_router.get("/{identification_card}", response_model=student_schema.Student)
+@student_router.get("/{identification_card}")
 def read_student(identification_card: str, db: Session = Depends(get_db)):
-    db_student = crud.get_student(db, identification_card=identification_card)
+    # return identification_card
+    db_student = crud.get_student_by_identification_card(
+        db, identification_card=identification_card)
     return db_student
 
-@student_router.get("/voters", response_model=list[student_schema.Student])
+
+@student_router.get("/voters")
 def read_voters(db: Session = Depends(get_db)):
     voters = crud.get_voters(db)
     return voters
+
+
+@student_router.get("/pending-voters")
+def read_pending_voters(db: Session = Depends(get_db)):
+    pending_voters = crud.get_pending_voters(db)
+    print(pending_voters)
+    return pending_voters

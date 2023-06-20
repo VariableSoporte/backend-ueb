@@ -43,5 +43,6 @@ def vote_for_list(db: Session, list_id: int):
 def update_list(db: Session, list_id: int, list: ListCreate):
     db.query(models.List).filter(models.List.id == list_id).update(
         {"name": list.name})
+    list = db.query(models.List).filter(models.List.id == list_id).first()
     db.commit()
-    return True
+    return list

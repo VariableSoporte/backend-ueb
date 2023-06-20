@@ -8,6 +8,9 @@ from sqlalchemy.orm import Session
 
 votes_router = APIRouter()
 
+if crud.count_null_blank_votes(db=SessionLocal()) == 0:
+    votes_null = votes_null_schema.VotesNullCreate(null_votes=0, blank_votes=0)
+    crud.add_null_blank_votes(db=SessionLocal(), votes_null=votes_null)
 
 def get_db():
     db = SessionLocal()
@@ -20,6 +23,7 @@ def get_db():
 def vote_for_list(student_id: int, list_id: int, db: Session = Depends(get_db)):
     student = crud.vote_for_list(db, student_id, list_id)
     return student
+    # return student_id
 
 @votes_router.post("/null/{student_id}")
 def vote_null(student_id: int, db: Session = Depends(get_db)):
@@ -31,7 +35,7 @@ def blank_vote(student_id: int, db: Session = Depends(get_db)):
     student = crud.blank_vote(db, student_id)
     return student
 
-@votes_router.get("/nulls_blanks/", response_model=votes_null_schema.VotesNull)
+@votes_router.get("/nulls-blanks/")
 def get_nulls_blanks(db: Session = Depends(get_db)):
     nulls_blanks = crud.get_null_blank_votes(db)
     return nulls_blanks

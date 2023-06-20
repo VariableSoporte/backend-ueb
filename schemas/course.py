@@ -3,6 +3,7 @@ from .student import Student
 
 
 class CourseBase(BaseModel):
+    id: int
     level: str
     parallel: str
 
@@ -15,7 +16,7 @@ class CourseCreate(CourseBase):
 
 
 class Course(CourseBase):
-    id: int
+    # id: int
     students: list[Student] = []
     data_file: str
 

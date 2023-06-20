@@ -79,6 +79,7 @@ class VotesNull(Base):
 
     __tablename__ = 'votes_null'
 
+    id = Column(Integer, primary_key=True, index=True, autoincrement=True)
     blank_votes = Column(Integer, default=0)
     null_votes = Column(Integer, default=0)
 

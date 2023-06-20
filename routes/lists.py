@@ -35,17 +35,6 @@ def create_list(list: list_schema.ListCreate, db: Session = Depends(get_db)):
     db_list = crud.create_list(db=db, list=list)
     return db_list
 
-# @list_router.get("/", response_model=list[list_schema.List])
-# def read_lists(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
-#     lists = crud.get_lists(db, skip=skip, limit=limit)
-#     return lists
-
-
-# @list_router.post("/", response_model=list_schema.List)
-# def create_list(list: list_schema.ListCreate, db: Session = Depends(get_db)):
-#     db_list = crud.create_list(db=db, list=list)
-#     return db_list
-
 
 @list_router.post("/logo/{list_id}")
 def add_list_logo(file: UploadFile = File(...), list_id: int = 0, db: Session = Depends(get_db)):
@@ -72,8 +61,8 @@ def add_list_logo(file: UploadFile = File(...), list_id: int = 0, db: Session = 
 async def get_list_logo(list_id: str, db: Session = Depends(get_db)):
     # Directorio de imágenes"
     # Obtener la ruta de la imagen desde la bd
-    db_list = crud.get_list(db=db, candidate_id=list_id)
-    image_directory = db_list.photo
+    db_list = crud.get_list(db=db, list_id=list_id)
+    image_directory = db_list.logo
     # Ruta completa de la imagen
     file_path = os.path.join(image_directory)
     # Verificar si el archivo existe
@@ -108,7 +97,7 @@ def add_list_file(file: UploadFile = File(...), list_id: int = 0, db: Session = 
 async def get_list_file(list_id: str, db: Session = Depends(get_db)):
     # Directorio de imágenes"
     # Obtener la ruta de la imagen desde la bd
-    db_list = crud.get_list(db=db, candidate_id=list_id)
+    db_list = crud.get_list(db=db, list_id=list_id)
     image_directory = db_list.documentation
     # Ruta completa de la imagen
     file_path = os.path.join(image_directory)
@@ -172,14 +161,17 @@ async def get_template(db: Session = Depends(get_db)):
     # Directorio de imágenes"
     # Obtener la ruta de la imagen desde la bd
     image_directory = 'docs/template.xlsx'
+
     # Ruta completa de la imagen
     file_path = os.path.join(image_directory)
     # Verificar si el archivo existe
     if os.path.exists(file_path):
-        return FileResponse(file_path)
+        return FileResponse(file_path, filename='template.xlsx')
+        # return file_path
     else:
         return file_path
-    
+
+
 @list_router.get("/students_file/{list_id}")
 async def get_students_file(list_id: str, db: Session = Depends(get_db)):
     # Directorio de imágenes"
