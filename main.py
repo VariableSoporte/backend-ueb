@@ -16,3 +16,4 @@ app.include_router(users.user_router, prefix="/users", tags=["users"])
 app.include_router(vote.votes_router, prefix="/votes", tags=["votes"])
 app.include_router(students_new.test_router, prefix="/students", tags=["students"])
 
+

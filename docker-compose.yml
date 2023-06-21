@@ -1,29 +1,11 @@
 version: '3'
- 
+
 services:
-  db:
-    image: mysql:5.7
-    container_name: db
-    environment:
-      MYSQL_ROOT_PASSWORD: JL09I1Wr5jGNLzCy
-      MYSQL_DATABASE: app_db
-      MYSQL_USER: ueb
-      MYSQL_PASSWORD: 8s4Wc58MBO2fQOyf
+  uebapi:
+    image: uebfastapi
+    build: .
+    container_name: fastapi_ueb
     ports:
-      - "6033:3306"
+      - "8000:8000"
     volumes:
-      - dbdata:/var/lib/mysql
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin
-    container_name: pma
-    links:
-      - db
-    environment:
-      PMA_HOST: db
-      PMA_PORT: 3306
-      PMA_ARBITRARY: 1
-    restart: always
-    ports:
-      - 8081:80
-volumes:
-  dbdata:
+      - .:/app
