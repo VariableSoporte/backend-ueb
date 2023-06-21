@@ -11,6 +11,9 @@ def get_students(db: Session, skip: int = 1, limit: int = 100):
 def get_student(db: Session, student_id: int):
     return db.query(models.Student).filter(models.Student.id == student_id).first()
 
+def get_student_by_identification_card(db: Session, identification_card: str):
+    return db.query(models.Student).filter(models.Student.identification_card == identification_card).first()
+
 
 def create_student(db: Session, student: StudentCreate):
     db_student = models.Student(**student.dict())

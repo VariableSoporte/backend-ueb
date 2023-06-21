@@ -6,11 +6,12 @@ services:
     container_name: db
     environment:
       MYSQL_ROOT_PASSWORD: JL09I1Wr5jGNLzCy
-      MYSQL_DATABASE: app_db
+      MYSQL_DATABASE: ueb_db
       MYSQL_USER: ueb
       MYSQL_PASSWORD: 8s4Wc58MBO2fQOyf
     ports:
       - "6033:3306"
+    restart: always
     volumes:
       - dbdata:/var/lib/mysql
   uebapi:
