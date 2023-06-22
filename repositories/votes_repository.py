@@ -22,6 +22,15 @@ def vote_null(db: Session, student_id: int):
     db.commit()
     return True
 
+# def vote_null(db: Session, identification_card: str):
+#     student = crud_students.get_student_by_identification_card(db, identification_card)
+#     if student.can_vote == False:
+#         return False
+#     db.query(models.Student).filter(models.Student.identification_card == identification_card).update({"can_vote": False})
+#     db.query(models.VotesNull).update({"null_votes": models.VotesNull.null_votes + 1})
+#     db.commit()
+#     return True
+
 def blank_vote(db: Session, student_id: int):
     student = crud_students.get_student(db, student_id)
     if student.can_vote == False:
