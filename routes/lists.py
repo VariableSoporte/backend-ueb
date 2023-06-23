@@ -23,6 +23,10 @@ def get_lists(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     lists = crud.get_lists(db, skip=skip, limit=limit)
     return lists
 
+@list_router.get("/unorder", response_model=list[list_schema.List])
+def get_lists_unorder(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+    lists = crud.get_lists_unorder(db, skip=skip, limit=limit)
+    return lists
 
 @list_router.get("/{list_id}", response_model=list_schema.List)
 def get_list(list_id: int, db: Session = Depends(get_db)):

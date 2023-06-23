@@ -6,6 +6,9 @@ import models
 def get_lists(db: Session, skip: int = 1, limit: int = 100):
     return db.query(models.List).order_by(models.List.votes.desc()).all()
 
+def get_lists_unorder(db: Session, skip: int = 1, limit: int = 100):
+    return db.query(models.List).all()
+
 
 def create_list(db: Session, list: ListCreate):
     db_list = models.List(**list.dict())
