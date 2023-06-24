@@ -6,7 +6,7 @@ from .dignity import Dignity
 
 class CandidateBase(BaseModel):
     photo: str
-    student_id: int
+    # student_id: int
     
 
 
@@ -17,6 +17,7 @@ class CandidateCreate(CandidateBase):
 
 
 class Candidate(CandidateBase):
+    id: int
     student: Student
     dignity: Dignity
     # list: List
