@@ -1,13 +1,15 @@
 from pydantic import BaseModel
 
-class VotesNullBase(BaseModel):
+
+class VoteNullBase(BaseModel):
     pass
 
-class VotesNullCreate(VotesNullBase):
+
+class VoteNullCreate(VoteNullBase):
     pass
 
-class VotesNull(VotesNullBase):
-    # id: int
+
+class VoteNull(VoteNullBase):
     null_votes: int
     blank_votes: int
 

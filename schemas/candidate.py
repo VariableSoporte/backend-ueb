@@ -1,26 +1,23 @@
 from pydantic import BaseModel
-from .student import Student
-from .dignity import Dignity
-# from .list import List
+from schemas.dignity import Dignity
+from schemas.student import Student
 
 
 class CandidateBase(BaseModel):
-    photo: str
-    # student_id: int
-    
+    pass
 
 
 class CandidateCreate(CandidateBase):
+    student_id: int
     dignity_id: int
     list_id: int
-    pass
 
 
 class Candidate(CandidateBase):
     id: int
+    photo: str
     student: Student
     dignity: Dignity
-    # list: List
 
     class Config:
         orm_mode = True

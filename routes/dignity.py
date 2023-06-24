@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
-from database import SessionLocal
-from repositories import dignities_repository as crud
+from config.database import SessionLocal
+from repositories import dignities as crud
 import schemas.dignity as dignity_schema
 
 dignity_router = APIRouter()
@@ -16,8 +16,8 @@ def get_db():
 
 
 @dignity_router.get("/", response_model=list[dignity_schema.Dignity])
-def read_dignities(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
-    dignities = crud.get_dignities(db, skip=skip, limit=limit)
+def read_dignities(db: Session = Depends(get_db)):
+    dignities = crud.get_dignities(db)
     return dignities
 
 

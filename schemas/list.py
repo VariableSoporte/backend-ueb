@@ -1,18 +1,23 @@
 from pydantic import BaseModel
-from .candidate import Candidate
+from schemas.candidate import Candidate
+from schemas.list_documents import ListDocument
+
 
 class ListBase(BaseModel):
-    name: str
-    logo: str
+    pass
+
 
 class ListCreate(ListBase):
-    pass
+    name: str
+
 
 class List(ListBase):
     id: int
-    documentation: str
+    name: str
+    logo: str
     votes: int
     candidates: list[Candidate] = []
+    list_documents: list[ListDocument] = []
 
     class Config:
         orm_mode = True

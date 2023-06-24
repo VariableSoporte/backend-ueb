@@ -1,16 +1,6 @@
 from sqlalchemy import Boolean, Column, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
-
-from database import Base
-
-
-class VotesNull(Base):
-
-    __tablename__ = 'votes_null'
-
-    id = Column(Integer, primary_key=True, index=True, autoincrement=True)
-    blank_votes = Column(Integer, default=0)
-    null_votes = Column(Integer, default=0)
+from config.database import Base
 
 
 class Student(Base):
@@ -59,7 +49,7 @@ class Candidate(Base):
     __tablename__ = 'candidates'
 
     id = Column(Integer, primary_key=True, index=True, autoincrement=True)
-    photo = Column(String(200), nullable=True)
+    photo = Column(String(200), default='') 
 
     student_id = Column(Integer, ForeignKey('students.id'))
     student = relationship('Student', back_populates='candidate')
@@ -77,11 +67,22 @@ class List(Base):
 
     id = Column(Integer, primary_key=True, index=True, autoincrement=True)
     name = Column(String(50))
-    logo = Column(String(200))
+    logo = Column(String(200), default='')
     documentation = Column(String(200), default='')
     votes = Column(Integer, default=0)
 
     candidates = relationship('Candidate', back_populates='list')
+    list_documents = relationship('ListDocument', back_populates='list')
+
+
+class ListDocument(Base):
+
+    __tablename__ = 'lists_documents'
+
+    id = Column(Integer, primary_key=True, index=True, autoincrement=True)
+    list_id = Column(Integer, ForeignKey('lists.id'))
+    list = relationship('List', back_populates='list_documents')
+    document = Column(String(200))
 
 
 class User(Base):
@@ -91,3 +92,12 @@ class User(Base):
     id = Column(Integer, primary_key=True, index=True, autoincrement=True)
     username = Column(String(50), unique=True, index=True)
     password = Column(String(200))
+
+
+class VotesNull(Base):
+
+    __tablename__ = 'votes_null'
+
+    id = Column(Integer, primary_key=True, index=True, autoincrement=True)
+    blank_votes = Column(Integer, default=0)
+    null_votes = Column(Integer, default=0)

@@ -1,5 +1,6 @@
 from pydantic import BaseModel
-from .student import Student
+
+from schemas.student import Student
 
 
 class CourseBase(BaseModel):
@@ -16,11 +17,12 @@ class CourseCreate(CourseBase):
 
 class Course(CourseBase):
     id: int
-    students: list[Student] = []
     data_file: str
+    students: list[Student] = []
 
     class Config:
         orm_mode = True
+
 
 class CourseList(BaseModel):
     id: int
@@ -29,6 +31,7 @@ class CourseList(BaseModel):
 
     class Config:
         orm_mode = True
+
 
 class CourseStudents(BaseModel):
     students: list[Student] = []

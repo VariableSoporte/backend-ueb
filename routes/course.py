@@ -1,11 +1,11 @@
-from fastapi import APIRouter, Depends
-import schemas.course as course_schema
-from database import SessionLocal
-from repositories import courses_repository as crud
-from sqlalchemy.orm import Session
-from fastapi import UploadFile, File
+from fastapi import APIRouter, Depends, HTTPException, status, UploadFile, File
 from fastapi.responses import FileResponse
+from sqlalchemy.orm import Session
+from config.database import SessionLocal
+from schemas import course as course_schema
 import os
+
+from repositories import courses as crud
 
 course_router = APIRouter()
 
@@ -68,3 +68,5 @@ def update_course_data_file(file: UploadFile = File(...), course_id: int = 0, db
         db=db, course_id=course_id, file=file_path)
     crud.add_students(db=db, course_id=course_id)
     return db_course
+
+

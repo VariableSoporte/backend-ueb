@@ -7,7 +7,6 @@ class StudentBase(BaseModel):
     matern_lastname: str
     first_name: str
     second_name: str
-    can_vote: bool
     course_id: int
 
 
@@ -17,6 +16,7 @@ class StudentCreate(StudentBase):
 
 class Student(StudentBase):
     id: int
+    can_vote: bool
 
     class Config:
         orm_mode = True

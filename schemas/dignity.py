@@ -1,5 +1,4 @@
 from pydantic import BaseModel
-from .student import Student
 
 
 class DignityBase(BaseModel):
@@ -12,7 +11,6 @@ class DignityCreate(DignityBase):
 
 class Dignity(DignityBase):
     id: int
-    # candidates: list[Candidate] = []
 
     class Config:
         orm_mode = True

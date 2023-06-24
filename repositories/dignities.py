@@ -1,9 +1,9 @@
 from schemas.dignity import DignityCreate
 from sqlalchemy.orm import Session
-import models
+from models import models
 
 
-def get_dignities(db: Session, skip: int = 1, limit: int = 100):
+def get_dignities(db: Session):
     return db.query(models.Dignity).all()
 
 
@@ -13,3 +13,4 @@ def create_dignity(db: Session, dignity: DignityCreate):
     db.commit()
     db.refresh(db_dignity)
     return db_dignity
+
