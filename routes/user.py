@@ -14,7 +14,7 @@ def get_db():
         db.close()
 
 
-@user_router.post("/login")
+@user_router.post("/login/{username}/{password}")
 def login(username: str, password: str, db: Session = Depends(get_db)):
     user = crud.login(db, username, password)
     if user:
