@@ -14,6 +14,10 @@ class StudentCreate(StudentBase):
     pass
 
 
+class StudentEdit(StudentBase):
+    pass
+
+
 class Student(StudentBase):
     id: int
     can_vote: bool

@@ -1,5 +1,6 @@
 from sqlalchemy.orm import Session
 from models import models
+from schemas.student import StudentEdit
 
 
 def get_students(db: Session):
@@ -43,3 +44,28 @@ def get_pending_voters(db: Session):
 
 def get_students_by_course(db: Session, course_id: int):
     return db.query(models.Student).filter(models.Student.course_id == course_id).all()
+
+
+def update_student(db: Session, student_id: int, student: StudentEdit):
+    db_student = db.query(models.Student).filter(
+        models.Student.id == student_id).first()
+    db_student.first_name = student.first_name
+    db_student.second_name = student.second_name
+    db_student.patern_lastname = student.patern_lastname
+    db_student.matern_lastname = student.matern_lastname
+    db_student.identification_card = student.identification_card
+    db_student.course_id = student.course_id
+    db.commit()
+    db.refresh(db_student)
+    return db_student
+
+
+def delete_student(db: Session, student_id: int):
+    get_student = db.query(models.Student).filter(
+        models.Student.id == student_id).first()
+    if not get_student:
+        return False
+    db.query(models.Student).filter(
+        models.Student.id == student_id).delete()
+    db.commit()
+    return True
