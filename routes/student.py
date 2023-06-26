@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends
 from config.database import SessionLocal
 from repositories import students as crud
 from sqlalchemy.orm import Session
-from schemas.student import StudentCreate, StudentEdit, Student
+from schemas.student import StudentCourse, StudentCreate, StudentEdit, Student
 
 students = APIRouter()
 
@@ -21,7 +21,7 @@ def read_voters(db: Session = Depends(get_db)):
     return voters
 
 
-@students.get("/{identification_card}")
+@students.get("/{identification_card}", response_model=StudentCourse)
 def read_student(identification_card: str, db: Session = Depends(get_db)):
     db_student = crud.get_student_by_identification_card(
         db, identification_card=identification_card)

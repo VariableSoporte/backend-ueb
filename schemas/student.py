@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from schemas.course_altern import CourseBase
 
 
 class StudentBase(BaseModel):
@@ -20,6 +21,15 @@ class StudentEdit(StudentBase):
 
 class Student(StudentBase):
     id: int
+    can_vote: bool
+
+    class Config:
+        orm_mode = True
+
+
+class StudentCourse(StudentBase):
+    id: int
+    course: CourseBase
     can_vote: bool
 
     class Config:
