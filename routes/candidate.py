@@ -23,8 +23,8 @@ async def add_candidate(candidate: candidate_schema.CandidateCreate, db: Session
     db_candidate = crud.create_candidate(db=db, candidate=candidate)
     return db_candidate
 
-
-@candidate_router.post("/photo/{candidate_id}")
+# @candidate_router.options
+@candidate_router.options("/photo/{candidate_id}")
 def upload_photo(file: UploadFile = File(...), candidate_id: int = 0, db: Session = Depends(get_db)):
     # Directorio de imágenes
     image_directory = "images/candidates"
