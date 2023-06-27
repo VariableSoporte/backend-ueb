@@ -24,6 +24,8 @@ async def add_candidate(candidate: candidate_schema.CandidateCreate, db: Session
     return db_candidate
 
 # @candidate_router.options
+
+
 @candidate_router.post("/photo/{candidate_id}")
 def upload_photo(file: UploadFile = File(...), candidate_id: int = 0, db: Session = Depends(get_db)):
     # Directorio de imágenes
@@ -59,7 +61,7 @@ async def get_image(candidate_id: str, db: Session = Depends(get_db)):
         return FileResponse(file_path)
     else:
         return file_path
-    
+
 
 @candidate_router.put("/image/{candidate_id}", response_model=candidate_schema.Candidate)
 async def update_image(candidate_id: int, db: Session = Depends(get_db), file: UploadFile = File(...)):
@@ -84,3 +86,8 @@ async def update_image(candidate_id: int, db: Session = Depends(get_db), file: U
     # return file_path
 
 
+@candidate_router.put("/{candidate_id}", response_model=candidate_schema.Candidate)
+async def update_candidate(candidate_id: int, candidate: candidate_schema.CandidateCreate, db: Session = Depends(get_db)):
+    db_candidate = crud.update_candidate_by_id(
+        db=db, candidate_id=candidate_id, candidate=candidate)
+    return db_candidate

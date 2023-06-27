@@ -35,3 +35,10 @@ def delete_candidate(db: Session, candidate_id: int):
         models.Candidate.id == candidate_id).delete()
     db.commit()
     return True
+
+
+def update_candidate_by_id(db: Session, candidate_id: int, candidate: CandidateCreate):
+    db.query(models.Candidate).filter(
+        models.Candidate.id == candidate_id).update(candidate.dict())
+    db.commit()
+    return db.query(models.Candidate).filter(models.Candidate.id == candidate_id).first()
