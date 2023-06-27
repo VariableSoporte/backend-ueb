@@ -1,8 +1,9 @@
 from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
+# from fastapi.middleware.cors import CORSMiddleware
 from config.database import engine
 from models import models
 from routes import candidate, course, dignity, list, student, template, user, vote, list_document
+from starlette.middleware.cors import CORSMiddleware
 
 models.Base.metadata.create_all(bind=engine)
 
