@@ -104,3 +104,9 @@ def update_list(list_id: int, list: list_schema.ListCreate, db: Session = Depend
     db_list = crud.update_list(db=db, list_id=list_id, list=list)
     return db_list
 
+
+@list_router.delete("/{list_id}")
+def delete_list(list_id: int, db: Session = Depends(get_db)):
+    crud.delete_list(db=db, list_id=list_id)
+    return True
+

@@ -48,3 +48,9 @@ def delete_students_by_course(db: Session, course_id: int):
         models.Student.course_id == course_id).delete()
     db.commit()
     return {True}
+
+
+def delete_course(db: Session, course_id: int):
+    db.query(models.Course).filter(models.Course.id == course_id).delete()
+    db.commit()
+    return {True}

@@ -70,3 +70,8 @@ def update_course_data_file(file: UploadFile = File(...), course_id: int = 0, db
     return db_course
 
 
+@course_router.delete('/{course_id}')
+def delete_course(course_id: int, db: Session = Depends(get_db)):
+    crud.delete_course(db=db, course_id=course_id)
+    return True
+
