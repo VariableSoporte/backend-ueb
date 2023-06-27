@@ -49,8 +49,6 @@ def upload_photo(file: UploadFile = File(...), candidate_id: int = 0, db: Sessio
 
 @candidate_router.get("/image/{candidate_id}")
 async def get_image(candidate_id: str, db: Session = Depends(get_db)):
-    # Directorio de imágenes
-    image_directory = "images/candidates/IMG_20210511_151821~2.jpg"
     # Obtener la ruta de la imagen desde la bd
     db_candidate = crud.get_candidate(db=db, candidate_id=candidate_id)
     image_directory = db_candidate.photo
