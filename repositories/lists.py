@@ -53,3 +53,9 @@ def delete_candidates_from_list(db: Session, list_id: int):
     db.query(models.Candidate).filter(models.Candidate.list_id == list_id).delete()
     db.commit()
     return True
+
+
+def delete_list_documents(db: Session, list_id: int):
+    db.query(models.ListDocument).filter(models.ListDocument.list_id == list_id).delete()
+    db.commit()
+    return True
