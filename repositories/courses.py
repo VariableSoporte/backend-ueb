@@ -3,7 +3,8 @@ import pandas as pd
 from models import models
 from config.database import engine
 from schemas.course import CourseCreate
-
+from sqlalchemy.orm import aliased
+from sqlalchemy.sql import exists
 
 def get_courses(db: Session):
     return db.query(models.Course).all()
@@ -47,10 +48,17 @@ def delete_students_by_course(db: Session, course_id: int):
     db.query(models.Student).filter(
         models.Student.course_id == course_id).delete()
     db.commit()
-    return {True}
+    return True
 
 
 def delete_course(db: Session, course_id: int):
     db.query(models.Course).filter(models.Course.id == course_id).delete()
     db.commit()
     return {True}
+
+
+def delete_candidates_by_course(db: Session, course_id: int):
+    aux = db.query(models.Candidate).join(models.Student).filter(models.Student.course_id == course_id).delete()
+    db.commit()
+    # db.commit()    
+    return True

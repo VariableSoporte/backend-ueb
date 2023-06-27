@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 from schemas.dignity import Dignity
-from schemas.student import Student
+from schemas.student import StudentCourse
 
 
 class CandidateBase(BaseModel):
@@ -16,7 +16,7 @@ class CandidateCreate(CandidateBase):
 class Candidate(CandidateBase):
     id: int
     photo: str
-    student: Student
+    student: StudentCourse
     dignity: Dignity
 
     class Config:
