@@ -14,8 +14,14 @@ app.add_middleware(
     allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
-    expose_headers=["*"]
+    expose_headers=["*"],
+    access_control_allow_origin=["*"]
 )
+
+
+@app.options("/ruta")
+async def options_route():
+    return {"Allow": "POST"}, 200
 
 
 app.include_router(candidate.candidate_router,
