@@ -42,3 +42,8 @@ def update_candidate_by_id(db: Session, candidate_id: int, candidate: CandidateC
         models.Candidate.id == candidate_id).update(candidate.dict())
     db.commit()
     return db.query(models.Candidate).filter(models.Candidate.id == candidate_id).first()
+
+
+
+def student_is_candidate(db: Session, student_id: int):
+    return db.query(models.Candidate).filter(models.Candidate.student_id == student_id).first()

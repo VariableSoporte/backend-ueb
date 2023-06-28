@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from config.database import SessionLocal
 from repositories import candidates as crud
@@ -19,7 +19,10 @@ def get_db():
 
 
 @candidate_router.post("/", response_model=candidate_schema.Candidate)
-async def add_candidate(candidate: candidate_schema.CandidateCreate, db: Session = Depends(get_db)):
+async def add_candidate(candidate: candidate_schema.CandidateCreate, db: Session = Depends(get_db)) -> any:
+    aux = crud.student_is_candidate(db=db, student_id=candidate.student_id)
+    if aux:
+        raise HTTPException(status_code=400, detail="El estudiante ya es candidato")
     db_candidate = crud.create_candidate(db=db, candidate=candidate)
     return db_candidate
 
