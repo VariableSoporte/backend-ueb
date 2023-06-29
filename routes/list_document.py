@@ -65,7 +65,7 @@ def get_list_document(document_id: int, db: Session = Depends(get_db)):
 
 
 @list_document_router.put("/{document_id}")
-def update_list_document(file: UploadFile = File(...), document_id: int = 0, db: Session = Depends(get_db), document_type: str = "document"):
+def update_list_document(document_type:str, file: UploadFile = File(...), document_id: int = 0, db: Session = Depends(get_db)):
     document = crud_list_document.get_list_document(
         db, list_document_id=document_id)
     list_id = document.list_id
