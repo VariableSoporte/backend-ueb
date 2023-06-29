@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from fastapi.responses import FileResponse
 import os
 
@@ -18,4 +18,4 @@ async def get_template():
         return FileResponse(file_path, filename='plantilla_carga_cursos.xlsx')
         # return file_path
     else:
-        return file_path
+        return HTTPException(status_code=404, detail="File not found")
