@@ -64,7 +64,7 @@ def get_list_document(document_id: int, db: Session = Depends(get_db)):
         return file_path
 
 
-@list_document_router.put("/{document_id}/{document_type}}")
+@list_document_router.put("/{document_id}/{document_type}")
 def update_list_document(document_id: int, document_type: str, file: UploadFile = File(...), db: Session = Depends(get_db)):
     document = crud_list_document.get_list_document(
         db, list_document_id=document_id)
