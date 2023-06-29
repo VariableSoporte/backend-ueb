@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from config.database import SessionLocal
 from repositories import dignities as crud
@@ -17,17 +17,11 @@ def get_db():
 
 @dignity_router.get("/", response_model=list[dignity_schema.Dignity])
 def read_dignities(db: Session = Depends(get_db)):
-    try:
-        dignities = crud.get_dignities(db)
-        return dignities
-    except Exception as e:
-        raise HTTPException(status_code=400, detail=str(e))
+    dignities = crud.get_dignities(db)
+    return dignities
 
 
 @dignity_router.post("/", response_model=dignity_schema.Dignity)
 def create_dignity(dignity: dignity_schema.DignityCreate, db: Session = Depends(get_db)):
-    try:
-        db_dignity = crud.create_dignity(db=db, dignity=dignity)
-        return db_dignity
-    except Exception as e:
-        raise HTTPException(status_code=400, detail=str(e))
+    db_dignity = crud.create_dignity(db=db, dignity=dignity)
+    return db_dignity

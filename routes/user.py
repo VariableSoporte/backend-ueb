@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends
 from config.database import SessionLocal
 from repositories import users as crud
 from sqlalchemy.orm import Session
@@ -16,11 +16,8 @@ def get_db():
 
 @user_router.post("/login/{username}/{password}")
 def login(username: str, password: str, db: Session = Depends(get_db)):
-    try:
-        user = crud.login(db, username, password)
-        if user:
-            return True
-        else:
-            return False
-    except Exception as e:
-        raise HTTPException(status_code=400, detail=str(e))
+    user = crud.login(db, username, password)
+    if user:
+        return True
+    else:
+        return False

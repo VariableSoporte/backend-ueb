@@ -22,8 +22,7 @@ def get_db():
 async def add_candidate(candidate: candidate_schema.CandidateCreate, db: Session = Depends(get_db)) -> any:
     aux = crud.student_is_candidate(db=db, student_id=candidate.student_id)
     if aux:
-        raise HTTPException(
-            status_code=400, detail="El estudiante ya es candidato")
+        raise HTTPException(status_code=400, detail="El estudiante ya es candidato")
     db_candidate = crud.create_candidate(db=db, candidate=candidate)
     return db_candidate
 
@@ -32,26 +31,25 @@ async def add_candidate(candidate: candidate_schema.CandidateCreate, db: Session
 
 @candidate_router.post("/photo/{candidate_id}")
 def upload_photo(file: UploadFile = File(...), candidate_id: int = 0, db: Session = Depends(get_db)):
-    try:
-        # Directorio de imágenes
-        image_directory = "images/candidates"
-        # Crea el directorio de imágenes si no existe
-        os.makedirs(image_directory, exist_ok=True)
-        # Obtén la extensión del archivo
-        extension = os.path.splitext(file.filename)[1]
-        # Crea la ruta donde se almacenará la imagen en el directorio de imágenes
-        file_path = os.path.join(image_directory, file.filename)
-        # Guarda la imagen en la ruta especificada
-        with open(file_path, "wb") as image_file:
-            image_file.write(file.file.read())
-        # Actualiza la ruta de la imagen en la base de datos
-        file_path = f"images/candidates/{file.filename}"
-        db_candidate = crud.update_candidate(
-            db=db, candidate_id=candidate_id, file=file_path)
-        print(db_candidate)
-        return db_candidate
-    except Exception as e:
-        raise HTTPException(status_code=400, detail=str(e))
+    # Directorio de imágenes
+    image_directory = "images/candidates"
+    # Crea el directorio de imágenes si no existe
+    os.makedirs(image_directory, exist_ok=True)
+    # Obtén la extensión del archivo
+    extension = os.path.splitext(file.filename)[1]
+    # Crea la ruta donde se almacenará la imagen en el directorio de imágenes
+    file_path = os.path.join(image_directory, file.filename)
+    # Guarda la imagen en la ruta especificada
+    with open(file_path, "wb") as image:
+        image.write(file.file.read())
+
+    # Actualiza la ruta de la imagen en la base de datos
+    file_path = f"images/candidates/{file.filename}"
+    db_candidate = crud.update_candidate(
+        db=db, candidate_id=candidate_id, file=file_path)
+    print(db_candidate)
+    return db_candidate
+    # return file_path
 
 
 @candidate_router.get("/image/{candidate_id}")
@@ -65,39 +63,34 @@ async def get_image(candidate_id: str, db: Session = Depends(get_db)):
     if os.path.exists(file_path):
         return FileResponse(file_path)
     else:
-        return HTTPException(status_code=404, detail="Imagen no encontrada")
+        return file_path
 
 
 @candidate_router.put("/image/{candidate_id}", response_model=candidate_schema.Candidate)
 async def update_image(candidate_id: int, db: Session = Depends(get_db), file: UploadFile = File(...)):
-    try:
-        # Directorio de imágenes
-        image_directory = "images/candidates"
-        # Crea el directorio de imágenes si no existe
-        os.makedirs(image_directory, exist_ok=True)
-        # Obtén la extensión del archivo
-        extension = os.path.splitext(file.filename)[1]
-        # Crea la ruta donde se almacenará la imagen en el directorio de imágenes
-        file_path = os.path.join(image_directory, file.filename)
-        # Guarda la imagen en la ruta especificada
-        with open(file_path, "wb") as image_file:
-            image_file.write(file.file.read())
+    # Directorio de imágenes
+    image_directory = "images/candidates"
+    # Crea el directorio de imágenes si no existe
+    os.makedirs(image_directory, exist_ok=True)
+    # Obtén la extensión del archivo
+    extension = os.path.splitext(file.filename)[1]
+    # Crea la ruta donde se almacenará la imagen en el directorio de imágenes
+    file_path = os.path.join(image_directory, file.filename)
+    # Guarda la imagen en la ruta especificada
+    with open(file_path, "wb") as image:
+        image.write(file.file.read())
 
-        # Actualiza la ruta de la imagen en la base de datos
-        file_path = f"images/candidates/{file.filename}"
-        db_candidate = crud.update_candidate(
-            db=db, candidate_id=candidate_id, file=file_path)
-        print(db_candidate)
-        return db_candidate
-    except Exception as e:
-        raise HTTPException(status_code=400, detail=str(e))
+    # Actualiza la ruta de la imagen en la base de datos
+    file_path = f"images/candidates/{file.filename}"
+    db_candidate = crud.update_candidate(
+        db=db, candidate_id=candidate_id, file=file_path)
+    print(db_candidate)
+    return db_candidate
+    # return file_path
 
 
 @candidate_router.put("/{candidate_id}", response_model=candidate_schema.Candidate)
 async def update_candidate(candidate_id: int, candidate: candidate_schema.CandidateCreate, db: Session = Depends(get_db)):
-    try:
-        db_candidate = crud.update_candidate_by_id(
-            db=db, candidate_id=candidate_id, candidate=candidate)
-        return db_candidate
-    except Exception as e:
-        raise HTTPException(status_code=400, detail=str(e))
+    db_candidate = crud.update_candidate_by_id(
+        db=db, candidate_id=candidate_id, candidate=candidate)
+    return db_candidate
