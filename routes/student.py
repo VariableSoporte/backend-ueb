@@ -44,3 +44,13 @@ def update_student(student_id: int, student: StudentEdit, db: Session = Depends(
 def delete_student(student_id: int, db: Session = Depends(get_db)):
     student = crud.delete_student(db, student_id)
     return student
+
+
+@students.post("/", response_model=Student)
+def create_student(student: StudentCreate, db: Session = Depends(get_db)):
+    db_student = crud.get_student_by_identification_card(
+        db, identification_card=student.identification_card)
+    if db_student:
+        return {"error": "El estudiante ya existe"}
+    student = crud.create_student(db, student)
+    return student
