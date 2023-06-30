@@ -94,3 +94,9 @@ async def update_candidate(candidate_id: int, candidate: candidate_schema.Candid
     db_candidate = crud.update_candidate_by_id(
         db=db, candidate_id=candidate_id, candidate=candidate)
     return db_candidate
+
+
+@candidate_router.delete("/{list_id}")
+async def delete_candidates_by_list(list_id: int, db: Session = Depends(get_db)):
+    crud.delete_candidates_by_list(db=db, list_id=list_id)
+    return {"message": "Candidatos eliminados"}

@@ -44,6 +44,12 @@ def update_candidate_by_id(db: Session, candidate_id: int, candidate: CandidateC
     return db.query(models.Candidate).filter(models.Candidate.id == candidate_id).first()
 
 
-
 def student_is_candidate(db: Session, student_id: int):
     return db.query(models.Candidate).filter(models.Candidate.student_id == student_id).first()
+
+
+def delete_candidates_by_list(db: Session, list_id: int):
+    db.query(models.Candidate).filter(
+        models.Candidate.list_id == list_id).delete()
+    db.commit()
+    return True
