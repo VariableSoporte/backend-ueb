@@ -80,8 +80,10 @@ def create_student(db: Session, student: StudentCreate):
 
 
 def student_is_canidate(db: Session, student_id: int):
-    aux = db.query(models.Candidate).filter(
+    student = db.query(models.Student).filter(
         models.Student.id == student_id).first()
-    if aux:
+    if student is not None and student.candidate is not None:
         return True
-    return False
+    else:
+        return False
+        
