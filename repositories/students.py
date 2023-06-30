@@ -77,3 +77,11 @@ def create_student(db: Session, student: StudentCreate):
     db.commit()
     db.refresh(db_student)
     return db_student
+
+
+def student_is_canidate(db: Session, student_id: int):
+    aux = db.query(models.Candidate).filter(
+        models.Student.id == student_id).first()
+    if aux:
+        return True
+    return False

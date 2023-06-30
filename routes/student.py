@@ -54,3 +54,10 @@ def create_student(student: StudentCreate, db: Session = Depends(get_db)):
         return {"error": "El estudiante ya existe"}
     student = crud.create_student(db, student)
     return student
+
+
+
+@students.get("/candidate/{student_id}")
+def read_candidates(student_id:int, db: Session = Depends(get_db)):
+    candidates = crud.student_is_canidate(db, student_id)
+    return candidates
