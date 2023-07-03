@@ -28,6 +28,7 @@ class CourseList(BaseModel):
     id: int
     level: str
     parallel: str
+    journal: str
 
     class Config:
         orm_mode = True

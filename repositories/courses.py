@@ -82,3 +82,15 @@ def delete_candidates_by_course(db: Session, course_id: int):
     db.commit()
     # db.commit()
     return True
+
+
+def delete_students(db: Session):
+    db.query(models.Student).delete()
+    db.commit()
+    return True
+
+
+def delete_courses(db: Session):
+    db.query(models.Course).delete()
+    db.commit()
+    return True

@@ -4,6 +4,7 @@ from sqlalchemy.orm import Session
 from config.database import SessionLocal
 from schemas import course as course_schema
 import os
+from sqlalchemy.sql import text
 
 from repositories import courses as crud
 
@@ -57,6 +58,17 @@ def add_students_and_courses(file: UploadFile = File(...), db: Session = Depends
     return True
 
 
+@course_router.put('/masive/')
+def edit_masive(file: UploadFile = File(...), db: Session = Depends(get_db)):
+    crud.delete_students(db=db)
+    crud.delete_courses(db=db)
+    # db.execute('ALTER TABLE courses AUTO_INCREMENT = 1')
+    db.execute(text('ALTER TABLE courses AUTO_INCREMENT = 1'))
+    # db.execute('ALTER TABLE students AUTO_INCREMENT = 1')
+    db.execute(text('ALTER TABLE students AUTO_INCREMENT = 1'))
+    return add_students_and_courses(file=file, db=db)
+
+
 @course_router.post("/{course_id}", response_model=course_schema.Course)
 def update_course_data_file(file: UploadFile = File(...), course_id: int = 0, db: Session = Depends(get_db)):
     # Obtenemos el curso de la base de datos
@@ -93,3 +105,6 @@ def delete_course(course_id: int, db: Session = Depends(get_db)):
     crud.delete_students_by_course(db=db, course_id=course_id)
     crud.delete_course(db=db, course_id=course_id)
     return True
+
+
+
