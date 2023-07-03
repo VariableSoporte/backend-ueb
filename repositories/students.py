@@ -86,4 +86,7 @@ def student_is_canidate(db: Session, student_id: int):
         return True
     else:
         return False
-        
+
+
+def students_can_vote(db: Session):
+    return db.query(models.Student).filter(models.Student.can_vote == True).all()

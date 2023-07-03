@@ -29,6 +29,7 @@ class Course(Base):
     id = Column(Integer, primary_key=True, index=True, autoincrement=True)
     level = Column(String(50))
     parallel = Column(String(2))
+    journal = Column(String(20))
     data_file = Column(String(200), default='')
 
     students = relationship('Student', back_populates='course')
@@ -70,6 +71,8 @@ class List(Base):
     logo = Column(String(200), default='')
     documentation = Column(String(200), default='')
     votes = Column(Integer, default=0)
+    morning_votes = Column(Integer, default=0)
+    afternoon_votes = Column(Integer, default=0)
 
     candidates = relationship('Candidate', back_populates='list')
     list_documents = relationship('ListDocument', back_populates='list')
@@ -100,4 +103,8 @@ class VotesNull(Base):
 
     id = Column(Integer, primary_key=True, index=True, autoincrement=True)
     blank_votes = Column(Integer, default=0)
+    blank_votes_morning = Column(Integer, default=0)
+    blank_votes_afternoon = Column(Integer, default=0)
     null_votes = Column(Integer, default=0)
+    null_votes_morning = Column(Integer, default=0)
+    null_votes_afternoon = Column(Integer, default=0)

@@ -16,6 +16,8 @@ class List(ListBase):
     name: str
     logo: str
     votes: int
+    morning_votes: int
+    afternoon_votes: int
     candidates: list[Candidate] = []
     list_documents: list[ListDocument] = []
 

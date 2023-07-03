@@ -10,6 +10,13 @@ def vote_for_list(db: Session, student_id: int, list_id: int):
         return False
     db.query(models.Student).filter(models.Student.id ==
                                     student_id).update({"can_vote": False})
+    journal = student.course.journal.upper()
+    if journal == 'MATUTINA':
+        db.query(models.List).filter(models.List.id == list_id).update(
+            {"morning_votes": models.List.morning_votes + 1})
+    elif journal == 'VESPERTINA':
+        db.query(models.List).filter(models.List.id == list_id).update(
+            {"afternoon_votes": models.List.afternoon_votes + 1})
     db.query(models.List).filter(models.List.id == list_id).update(
         {"votes": models.List.votes + 1})
     db.commit()
@@ -22,6 +29,13 @@ def vote_null(db: Session, student_id: int):
         return False
     db.query(models.Student).filter(models.Student.id ==
                                     student_id).update({"can_vote": False})
+    journal = student.course.journal.upper()
+    if journal == 'MATUTINA':
+        db.query(models.VotesNull).update(
+            {"null_votes_morning": models.VotesNull.null_votes_morning + 1})
+    elif journal == 'VESPERTINA':
+        db.query(models.VotesNull).update(
+            {"null_votes_afternoon": models.VotesNull.null_votes_morning + 1})
     db.query(models.VotesNull).update(
         {"null_votes": models.VotesNull.null_votes + 1})
     db.commit()
@@ -32,8 +46,15 @@ def blank_vote(db: Session, student_id: int):
     student = crud_students.get_student(db, student_id)
     if student.can_vote == False:
         return False
+    journal = student.course.journal.upper()
     db.query(models.Student).filter(models.Student.id ==
                                     student_id).update({"can_vote": False})
+    if journal == 'MATUTINA':
+        db.query(models.VotesNull).update(
+            {"blank_votes_morning": models.VotesNull.blank_votes_morning + 1})
+    elif journal == 'VESPERTINA':
+        db.query(models.VotesNull).update(
+            {"blank_votes_afternoon": models.VotesNull.blank_votes_afternoon + 1})
     db.query(models.VotesNull).update(
         {"blank_votes": models.VotesNull.blank_votes + 1})
     db.commit()

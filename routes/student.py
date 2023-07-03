@@ -61,3 +61,8 @@ def create_student(student: StudentCreate, db: Session = Depends(get_db)):
 def read_candidates(student_id:int, db: Session = Depends(get_db)):
     candidates = crud.student_is_canidate(db, student_id)
     return candidates
+
+@students.get("/canvote/", response_model=list[Student])
+def read_can_vote(db: Session = Depends(get_db)):
+    students = crud.students_can_vote(db)
+    return students

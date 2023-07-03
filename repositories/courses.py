@@ -6,6 +6,7 @@ from schemas.course import CourseCreate
 from sqlalchemy.orm import aliased
 from sqlalchemy.sql import exists
 
+
 def get_courses(db: Session):
     return db.query(models.Course).all()
 
@@ -40,6 +41,24 @@ def add_students(db: Session, course_id: int):
     return {True}
 
 
+def concate_columns(row):
+    return f'{row["course"]}-{row["parallel"]}-{row["journal"]}'
+
+
+def add_students_and_courses(db: Session):
+    file_route = 'data/carga_masiva.xlsx'
+    data = pd.read_excel(file_route, dtype={'identification_card': str})
+    courses = [(row['course'], row['parallel'], row['journal']) for _, row in data.iterrows()]
+    courses = list(set(courses))
+    courses_list = [models.Course(level=course[0], parallel=course[1], journal=course[2]) for course in courses]
+    data['course_id'] = data.apply(concate_columns, axis=1)
+    data = data.drop(columns=['course', 'parallel', 'journal'])
+    data['course_id'] = pd.factorize(data['course_id'])[0] + 1
+    students = [models.Student(identification_card=row['identification_card'], patern_lastname=row['patern_lastname'], matern_lastname=row['matern_lastname'], first_name=row['first_name'], second_name=row['second_name'], course_id=row['course_id']) for _, row in data.iterrows()]
+    db.add_all(students)
+    db.add_all(courses_list)
+    db.commit()
+
 def get_students_by_course(db: Session, course_id: int):
     return db.query(models.Student).filter(models.Student.course_id == course_id).all()
 
@@ -58,7 +77,8 @@ def delete_course(db: Session, course_id: int):
 
 
 def delete_candidates_by_course(db: Session, course_id: int):
-    aux = db.query(models.Candidate).join(models.Student).filter(models.Student.course_id == course_id).delete()
+    aux = db.query(models.Candidate).join(models.Student).filter(
+        models.Student.course_id == course_id).delete()
     db.commit()
-    # db.commit()    
+    # db.commit()
     return True

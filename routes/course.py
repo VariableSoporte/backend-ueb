@@ -40,6 +40,23 @@ def get_course_data_file(course_id: int, db: Session = Depends(get_db)):
     return FileResponse(file_path, media_type="application/octet-stream", filename=db_course.data_file)
 
 
+@course_router.post('/masive/')
+def add_students_and_courses(file: UploadFile = File(...), db: Session = Depends(get_db)):
+    # Directorio del xlsx
+    xlsx_directory = "data/"
+    # Crea el directorio de xlsx si no existe
+    os.makedirs(xlsx_directory, exist_ok=True)
+    # Obtén la extensión del archivo
+    extension = os.path.splitext(file.filename)[1]
+    file.filename = f"carga_masiva{extension}".replace(" ", "_").lower()
+    # Guardar el archivo en la ruta especificada
+    with open(os.path.join(xlsx_directory, file.filename), "wb") as buffer:
+        buffer.write(file.file.read())
+    # Carga masiva de estudiantes y cursos
+    crud.add_students_and_courses(db=db)
+    return True
+
+
 @course_router.post("/{course_id}", response_model=course_schema.Course)
 def update_course_data_file(file: UploadFile = File(...), course_id: int = 0, db: Session = Depends(get_db)):
     # Obtenemos el curso de la base de datos
@@ -76,4 +93,3 @@ def delete_course(course_id: int, db: Session = Depends(get_db)):
     crud.delete_students_by_course(db=db, course_id=course_id)
     crud.delete_course(db=db, course_id=course_id)
     return True
-
