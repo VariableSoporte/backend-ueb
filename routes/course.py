@@ -58,6 +58,14 @@ def add_students_and_courses(file: UploadFile = File(...), db: Session = Depends
     return True
 
 
+@course_router.get('/masive/')
+def get_masive():
+    if os.path.exists("data/carga_masiva.xlsx"):
+        return FileResponse("data/carga_masiva.xlsx", media_type="application/octet-stream", filename="carga_masiva.xlsx")
+    else:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="No se encontró el archivo")
+
+
 @course_router.put('/masive/')
 def edit_masive(file: UploadFile = File(...), db: Session = Depends(get_db)):
     crud.delete_students(db=db)
