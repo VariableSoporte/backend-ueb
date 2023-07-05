@@ -20,6 +20,7 @@ services:
     container_name: fastapi_ueb
     ports:
       - "8000:8000"
+    restart: always
     volumes:
       - .:/app
   phpmyadmin:
